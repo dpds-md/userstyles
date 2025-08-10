@@ -1,0 +1,653 @@
+/* ==UserStyle==
+@name           Beauty Night
+@namespace      github.com/dpds-md/stylus.css
+@version        1.0.0
+@description    makes beautiful
+@author         dpds-md
+@advanced text hue "Hue" 218
+@advanced color colorpick "Color Picker (use this to copy your accent Hue)" hsl(218, 70%, 40%)
+==/UserStyle== */
+
+@-moz-document domain("gemini.google.com") {
+
+  /* ----------------------------------------------------------------
+   Sparkling-Night palette mirrors (safe drop-ins used below)
+  ------------------------------------------------------------------*/
+  :where(.theme-host):where(.dark-theme) {
+    --sn-indigo: #8B80F9;          /* tropical-indigo */
+    --sn-indigo-soft: #A69EFA;
+    --sn-green: #5AFF15;           /* bright green */
+    --sn-aqua: #00FFFB;            /* robin-egg blue */
+    --sn-white: #C0C0C0;
+    --sn-deep: #121019;            /* rich black */
+    --sn-purple-dark: #242032;     /* dark purple */
+  }
+
+  /* ----------------------------------------------------------------
+   Your original theme variables (kept intact)
+  ------------------------------------------------------------------*/
+  :where(.theme-host):where(.dark-theme) {
+    --gem-sys-color--surface: #121019; /*Main*/
+    --gem-sys-color--surface-container: #121019; /*Sidebar*/
+    --gem-sys-color--surface-container-low: #121019 /*Gem Maker*/
+    
+    --gem-sys-color--surface-container-high: #121019 !important; /*Hover*/
+    --gem-sys-color--surface-container-high: #121019;
+    --gem-sys-color--surface-container-high--rgb: 17, 17, 17;
+    /*I have no idea why it needs 3 of the same variable for it to work but whatever*/
+    
+    --gem-sys-color--surface-container-highest: #121019; /*Conversation link field*/
+    --gem-sys-color--surface-bright: #121019; /*Conversation link button*/
+
+    --gem-sys-color--outline-variant: #2e2e2e; /*Chat Border*/
+    --gem-sys-color--surface-variant: #222 !important;
+    
+    --gem-sys-color--primary: hsl(/*[[hue]]*/, 91%, 91%); /*Primary Colors, default hue is 218*/
+    --gem-sys-color--primary-container: hsl(/*[[hue]]*/, 72%, 11%);
+    --gem-sys-color--on-primary: hsl(/*[[hue]]*/, 90%, 23%);
+    --gem-sys-color--on-primary-container: hsl(/*[[hue]]*/, 91%, 91%);
+    
+    --gem-sys-color--secondary-container: hsl(/*[[hue]]*/, 72%, 11%);
+    --gem-sys-color--on-secondary-container: hsl(/*[[hue]]*/, 100%, 88%);
+    
+    /*Saving time*/
+    --gem-sys-color--surface--rgb: var(--gem-sys-color--surface);
+  }
+        
+  :root .dark-theme {
+    --bard-color-new-conversation-button: #121019; /*New Chat button*/
+    --bard-color-bot-power-up-button-background: #121019; /*Back and Forward buttons*/
+    --bard-color-response-container-flipped-background: #121019; /*Release Note Cards*/
+  }
+    
+  /* ----------------------------------------------------------------
+   Text styles (bold/italic), global + KaTeX safe
+  ------------------------------------------------------------------*/
+  /* <b> or <strong> */
+  b, strong { color: #0cff00c4 !important; }
+
+  /* inline bold spans */
+  span[style*="font-weight: bold"],
+  span[style*="font-weight:bold"] { color: #0cff00c4 !important; }
+
+  /* <i> or <em> */
+  i, em {
+    color: #02e7e3 !important;
+    font-style: italic !important;
+  }
+
+  /* inline italic spans */
+  span[style*="italic"] {
+    color: #02e7e3 !important;
+    font-style: italic !important;
+  }
+
+  /* Bold + Italic (any order) */
+  b i, i b, b em, em b, strong i, i strong, strong em, em strong,
+  b span[style*="italic"], strong span[style*="italic"] {
+    color: #fb0000 !important;
+    font-style: italic !important;
+    font-weight: bold !important;
+  }
+
+  /* Do NOT recolor KaTeX/Math */
+  .katex b,
+  .katex strong,
+  .katex i,
+  .katex em,
+  .katex span[style*="italic"],
+  .katex span[style*="font-weight"] {
+    color: inherit !important;
+    font-style: inherit !important;
+    font-weight: inherit !important;
+  }
+
+  /* ----------------------------------------------------------------
+   Headings (ALL h1–h6): color + Sparkling-Night gradient underline
+  ------------------------------------------------------------------*/
+  h1, h2, h3, h4, h5, h6 { color: #8B80F9 !important; }
+
+  /* in case headings are wrapped */
+  h1 span, h2 span, h3 span, h4 span, h5 span, h6 span,
+  h1 ms-cmark-node span, h2 ms-cmark-node span, h3 ms-cmark-node span,
+  h4 ms-cmark-node span, h5 ms-cmark-node span, h6 ms-cmark-node span {
+    color: #8B80F9 !important;
+  }
+
+  /* Underline for ALL headings (global) */
+  h1, h2, h3, h4, h5, h6 {
+    border-bottom: 0.08em solid transparent !important;
+    border-image: linear-gradient(
+      0.25turn,
+      transparent 5%,
+      var(--sn-indigo) 50%,
+      transparent 95%
+    ) 1 !important;
+    padding-bottom: 0.15em !important;
+  }
+
+  /* Also apply within Gemini response markdown for good measure */
+  .model-response-text .markdown h1,
+  .model-response-text .markdown h2,
+  .model-response-text .markdown h3,
+  .model-response-text .markdown h4,
+  .model-response-text .markdown h5,
+  .model-response-text .markdown h6 {
+    border-bottom: 0.08em solid transparent !important;
+    border-image: linear-gradient(
+      0.25turn,
+      transparent 5%,
+      var(--sn-indigo) 50%,
+      transparent 95%
+    ) 1 !important;
+    padding-bottom: 0.15em !important;
+  }
+
+  /* ----------------------------------------------------------------
+   Gemini response: links, lists, code (Sparkling-Night treatment)
+  ------------------------------------------------------------------*/
+  /* Links */
+  .model-response-text .markdown a {
+    color: var(--sn-white) !important;
+    text-decoration: none !important;
+    text-shadow:
+      -1px -1px 2px var(--sn-deep),
+      -1px  1px 2px var(--sn-deep),
+       1px -1px 2px var(--sn-deep),
+       1px  1px 2px var(--sn-deep);
+    background-image: linear-gradient(to bottom, var(--sn-indigo) 0%, var(--sn-indigo) 100%);
+    background-size: 1px 2px;
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+  }
+  .model-response-text .markdown a:hover {
+    color: var(--sn-indigo-soft) !important;
+  }
+
+  /* Lists + markers */
+  .model-response-text .markdown ul,
+  .model-response-text .markdown ol { list-style-type: square; }
+  .model-response-text .markdown li::marker { color: var(--sn-white) !important; }
+
+  /* Inline code */
+  .model-response-text .markdown code:not(pre code) {
+    background-color: var(--sn-purple-dark) !important;
+    color: var(--sn-green) !important;
+    padding: 3px 4px;
+    border-radius: 6px;
+    font-size: 0.9em;
+  }
+  /* Code blocks */
+  .model-response-text .markdown pre,
+  .model-response-text .markdown pre > code {
+    background-color: var(--sn-purple-dark) !important;
+    color: var(--sn-white) !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    overflow-x: auto;
+  }
+
+  /* Optional: scope your bold/italic hues to responses as well */
+  .model-response-text .markdown b,
+  .model-response-text .markdown strong { color: #0cff00c4 !important; }
+  .model-response-text .markdown i,
+  .model-response-text .markdown em,
+  .model-response-text .markdown span[style*="italic"] {
+    color: var(--sn-aqua) !important;
+    font-style: italic !important;
+  }
+  .model-response-text .markdown b i,
+  .model-response-text .markdown i b,
+  .model-response-text .markdown strong em,
+  .model-response-text .markdown em strong,
+  .model-response-text .markdown b span[style*="italic"],
+  .model-response-text .markdown strong span[style*="italic"] {
+    color: #fb0000 !important;
+    font-style: italic !important;
+    font-weight: bold !important;
+  }
+  .model-response-text .markdown .katex * { color: inherit !important; }
+
+  /* ----------------------------------------------------------------
+   Bubbles, borders, avatar, sidebar, KaTeX color
+  ------------------------------------------------------------------*/
+  .user-query-bubble-with-background {
+    border: 1px solid #2c2b2b !important;
+    border-radius: 30px !important;
+    box-shadow: 0 0 0 1px #2c2b2b inset, 0 0 10px rgba(139,128,249,0.15);
+  }
+    
+  .response-container-content {
+    border: 1px solid #2c2b2b !important;
+    border-radius: 30px !important;
+    padding: 8px 12px !important;
+    box-shadow: 0 0 0 1px #2c2b2b inset, 0 0 12px rgba(139,128,249,0.18);
+  }
+
+  /* Hide Gemini avatar container */
+  .avatar-gutter { display: none !important; }
+
+  /* Sidebar ring */
+  .sidenav-with-history-container { border: 1px solid #2c2b2b !important; }
+
+  /* LaTeX pigment */
+  .katex-html { color: #eb00c4 !important; }
+
+  /* ----------------------------------------------------------------
+   Optional: subtle “starfield” background (motion-safe)
+  ------------------------------------------------------------------*/
+  @media (prefers-reduced-motion: no-preference) {
+    :where(.theme-host):where(.dark-theme) {
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.08) 0, transparent 60%),
+        radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.06) 0, transparent 60%),
+        radial-gradient(1px 1px at 50% 50%, rgba(139,128,249,0.10) 0, transparent 60%);
+      background-repeat: no-repeat;
+      background-color: var(--sn-deep);
+    }
+  }
+
+  /* ----------------------------------------------------------------
+   Accessibility polish (focus rings)
+  ------------------------------------------------------------------*/
+  .model-response-text .markdown a:focus,
+  button:focus-visible {
+    outline: 2px solid var(--sn-indigo) !important;
+    outline-offset: 2px !important;
+    border-radius: 6px;
+  }
+
+  /* ----------------------------------------------------------------
+   Your original “hide stuff” + font overrides (kept)
+  ------------------------------------------------------------------*/
+  /*Disables the Try Gemini Advanced button at the top,*/ 
+  upsell-button { display: none; }
+
+  /*Disables the location reminder in the sidebar*/ 
+  .location-icon,
+  .location-footer-name,
+  .location-footer-atl-text,
+  .update-location-text,
+  .location-buttons-dot { display: none; }
+
+  button { font-family: Google Sans; }
+  /*Ts ts ts ts pmo pmo pmo pmo (changes font for deep research option)*/
+}
+
+    /* Make the overall dark overlay/backdrop feel consistent */
+    .cdk-overlay-backdrop.cdk-overlay-backdrop-showing,
+    .cdk-overlay-dark-backdrop.cdk-overlay-backdrop-showing {
+      background: rgba(10,8,14,.66) !important; /* deeper than default */
+      backdrop-filter: blur(2px) !important;
+    }
+
+    /* Account popout shell (same selector you used) */
+    .boqOnegoogleliteOgbOneGoogleBar div:has(> iframe[name="account"]) {
+      border: 1px solid #2c2b2b !important;
+      border-radius: 18px !important;
+      box-shadow:
+        0 12px 32px rgba(0,0,0,.55),
+        0 0 0 1px rgba(139,128,249,.35) inset !important;
+      overflow: hidden !important;
+      background: transparent !important;
+      position: relative !important;
+    }
+
+    /* On-top tint that visually darkens the light iframe without breaking it */
+    .boqOnegoogleliteOgbOneGoogleBar div:has(> iframe[name="account"])::before {
+      content: "";
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(120% 90% at 100% -10%, rgba(139,128,249,.18), transparent 60%),
+        radial-gradient(140% 100% at -10% 110%, rgba(0,0,0,.22), transparent 60%),
+        rgba(18,16,25,.86);
+      backdrop-filter: blur(8px) saturate(120%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+      mix-blend-mode: multiply;
+    }
+
+    /* Keep the iframe neat */
+    .boqOnegoogleliteOgbOneGoogleBar div:has(> iframe[name="account"]) > iframe[name="account"] {
+      display: block !important;
+      border: 0 !important;
+      border-radius: 18px !important;
+      filter: brightness(.95) contrast(1.05) saturate(1.06);
+    }
+
+
+    /* ===== Sparkling-Night tooltips (MatTooltip) ===== */
+
+    /* Shape & placement chrome for the floating panel */
+    .cdk-overlay-container .mat-mdc-tooltip-panel {
+      /* tiny nudge away from icons so it doesn't collide */
+      margin: 2px !important;
+      pointer-events: none !important; /* tooltips should ignore mouse */
+    }
+
+    /* Actual bubble surface */
+    .cdk-overlay-container .mat-mdc-tooltip-panel .mdc-tooltip__surface,
+    .cdk-overlay-container .mat-mdc-tooltip-panel .mdc-tooltip__surface-animation {
+      background: rgba(18,16,25,.90) !important;        /* #121019 with alpha */
+      color: #EDEEFF !important;
+      border: 1px solid rgba(139,128,249,.55) !important; /* #8B80F9 tint */
+      border-radius: 10px !important;
+      padding: 6px 10px !important;
+      box-shadow:
+        0 14px 30px rgba(0,0,0,.55),
+        0 0 0 1px rgba(139,128,249,.25) inset !important;
+      backdrop-filter: blur(6px) saturate(115%) !important;
+      -webkit-backdrop-filter: blur(6px) saturate(115%) !important;
+      font: 500 12.5px/1.25 "Google Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      letter-spacing: .2px;
+      max-width: 360px !important;      /* long labels wrap nicely */
+      white-space: normal !important;    /* allow wrapping */
+    }
+
+    /* Optional: subtle accent sheen */
+    .cdk-overlay-container .mat-mdc-tooltip-panel .mdc-tooltip__surface::before {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(120% 90% at 110% -10%, rgba(139,128,249,.12), transparent 60%),
+        radial-gradient(140% 120% at -10% 120%, rgba(0,0,0,.18), transparent 60%);
+      mix-blend-mode: screen;
+      border-radius: inherit;
+    }
+
+    /* Menu panel container */
+    .cdk-overlay-container .mat-mdc-menu-panel {
+      background: rgba(18,16,25,.92) !important;
+      border: 1px solid #2c2b2b !important;
+      border-radius: 14px !important;
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.55),
+        0 0 0 1px rgba(139,128,249,.25) inset !important;
+      backdrop-filter: blur(6px) saturate(115%) !important;
+      -webkit-backdrop-filter: blur(6px) saturate(115%) !important;
+    }
+
+    /* Menu items */
+    .mat-mdc-menu-item {
+      color: #EDEEFF !important;
+    }
+    .mat-mdc-menu-item:hover,
+    .mat-mdc-menu-item:focus {
+      background: rgba(139,128,249,.12) !important; /* accent hover */
+    }
+    .mat-mdc-menu-item .mat-icon {
+      color: #8B80F9 !important;
+      opacity: .9;
+    }
+
+    /* ===== Upload files / Add from Drive / Import code sheet ===== */
+    /* Surface (the <mat-card> that holds the list) */
+    .cdk-overlay-container .cdk-overlay-pane mat-card.upload-file-card-container.mdc-card {
+      background: rgba(18,16,25,.92) !important;          /* deep glass */
+      border: 1px solid #2c2b2b !important;
+      border-radius: 14px !important;
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.55),
+        0 0 0 1px rgba(139,128,249,.25) inset !important;
+      backdrop-filter: blur(8px) saturate(115%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(115%) !important;
+      padding: 6px !important;                             /* tighter insets */
+    }
+
+    /* The list container */
+    .upload-file-card-container .mat-mdc-action-list.mdc-list {
+      padding: 4px !important;
+    }
+
+    /* Each action row */
+    .upload-file-card-container .mat-mdc-list-item.mdc-list-item {
+      border-radius: 10px !important;
+      margin: 2px 0 !important;
+      min-height: 40px !important;
+      color: #EDEEFF !important;                           /* text */
+    }
+
+    /* Icons + titles */
+    .upload-file-card-container .menu-icon { color: #8B80F9 !important; opacity: .95; }
+    .upload-file-card-container .menu-text,
+    .upload-file-card-container .mat-mdc-list-item-title { color: #EDEEFF !important; }
+
+    /* Hover / focus states to mirror your tooltips */
+    .upload-file-card-container .mat-mdc-list-item.mdc-list-item:hover,
+    .upload-file-card-container .mat-mdc-list-item.mdc-list-item:focus {
+      background: rgba(139,128,249,.12) !important;
+      box-shadow: 0 0 0 1px rgba(139,128,249,.20) inset !important;
+    }
+
+    /* Accessible focus ring */
+    .upload-file-card-container .mat-mdc-list-item.mdc-list-item:focus-visible {
+      outline: 2px solid #8B80F9 !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Kill the Material ripple so the “light rectangle” doesn’t flash */
+    .upload-file-card-container .mdc-list-item__ripple,
+    .upload-file-card-container .mat-mdc-button-ripple,
+    .upload-file-card-container .mdc-ripple-surface::before,
+    .upload-file-card-container .mdc-ripple-surface::after {
+      display: none !important;
+    }
+
+    /* Small divider between groups (optional) */
+    .upload-file-card-container .mdc-list-divider { 
+      border-color: #2c2b2b !important; opacity: .9;
+    }
+
+    /* ===== 3-dots (“More”) icon button polish ===== */
+    .toolbox-drawer-button.mat-mdc-icon-button {
+      border-radius: 12px !important;
+      transition: background .18s ease, box-shadow .18s ease;
+    }
+
+    /* Hover should be soft, not a sharp rounded rectangle */
+    .toolbox-drawer-button.mat-mdc-icon-button:hover {
+      background: rgba(139,128,249,.10) !important;
+      box-shadow: 0 0 0 1px rgba(139,128,249,.20) inset !important;
+    }
+
+    /* Remove ripples that create that hard corner flash */
+    .toolbox-drawer-button .mat-mdc-button-persistent-ripple,
+    .toolbox-drawer-button .mat-ripple,
+    .toolbox-drawer-button .mdc-icon-button__ripple,
+    .toolbox-drawer-button .mdc-ripple-surface::before,
+    .toolbox-drawer-button .mdc-ripple-surface::after {
+      display: none !important;
+    }
+
+    /* ===== Guided Learning (⋯) drawer ===== */
+    /* The surface shell */
+    .cdk-overlay-container .cdk-overlay-pane mat-card.toolbox-drawer-card.mdc-card {
+      background: rgba(18,16,25,.92) !important;
+      border: 1px solid #2c2b2b !important;
+      border-radius: 14px !important;
+      box-shadow:
+        0 18px 38px rgba(0,0,0,.55),
+        0 0 0 1px rgba(139,128,249,.25) inset !important;
+      backdrop-filter: blur(8px) saturate(115%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(115%) !important;
+      padding: 6px !important;
+      overflow: hidden !important;
+    }
+
+    /* The list container inside the card */
+    .toolbox-drawer-card .mat-mdc-action-list.mdc-list {
+      padding: 4px !important;
+      background: transparent !important;
+    }
+
+    /* Each row */
+    .toolbox-drawer-card .mat-mdc-list-item.mdc-list-item,
+    .toolbox-drawer-card .toolbox-drawer-item-list-button.mdc-list-item {
+      border-radius: 10px !important;
+      margin: 2px 0 !important;
+      min-height: 44px !important;
+      color: #EDEEFF !important;
+      background: transparent !important;
+      transition: background .18s ease, box-shadow .18s ease, transform .18s ease !important;
+    }
+
+    /* Hover / focus (match Upload sheet + tooltips) */
+    .toolbox-drawer-card .mat-mdc-list-item.mdc-list-item:hover,
+    .toolbox-drawer-card .toolbox-drawer-item-list-button.mdc-list-item:hover,
+    .toolbox-drawer-card .mat-mdc-list-item.mdc-list-item:focus,
+    .toolbox-drawer-card .toolbox-drawer-item-list-button.mdc-list-item:focus {
+      background: rgba(139,128,249,.12) !important;
+      box-shadow: 0 0 0 1px rgba(139,128,249,.20) inset !important;
+    }
+
+    .toolbox-drawer-card .mat-mdc-list-item.mdc-list-item:focus-visible,
+    .toolbox-drawer-card .toolbox-drawer-item-list-button.mdc-list-item:focus-visible {
+      outline: 2px solid #8B80F9 !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Icons + text */
+    .toolbox-drawer-card .menu-icon,
+    .toolbox-drawer-card .mat-mdc-list-item-icon { color: #8B80F9 !important; opacity: .95; }
+
+    .toolbox-drawer-card .gds-label-l,
+    .toolbox-drawer-card .menu-text,
+    .toolbox-drawer-card .mat-mdc-list-item-title { color: #EDEEFF !important; }
+
+    .toolbox-drawer-card .gds-label-m-alt,
+    .toolbox-drawer-card .mdc-list-item__secondary-text { color: #A8A8C6 !important; }
+
+    /* Remove ripples that cause the harsh rectangle flash */
+    .toolbox-drawer-card .mdc-list-item__ripple,
+    .toolbox-drawer-card .mat-mdc-button-ripple,
+    .toolbox-drawer-card .mdc-ripple-surface::before,
+    .toolbox-drawer-card .mdc-ripple-surface::after { display: none !important; }
+
+    /* Kill internal white focus overlay */
+    .toolbox-drawer-card .mat-focus-indicator { outline: none !important; box-shadow: none !important; }
+
+
+    /* =========================
+       Sparkling-Night: Markdown polish
+       (lists, blockquotes, code, tables, hr, strike)
+       ========================= */
+
+    /* Safer scope so we don’t hit the whole app */
+    .model-response-text .markdown,
+    .response-content .markdown {}
+
+    /* --- Horizontal rules --- */
+    .model-response-text .markdown hr {
+      border: none !important;
+      border-top: 1px solid rgba(139,128,249,.28) !important;
+      margin: 16px 0 !important;
+      opacity: 1 !important;
+    }
+
+    /* --- Lists --- */
+    .model-response-text .markdown ul,
+    .model-response-text .markdown ol {
+      padding-left: 1.4rem !important;
+      margin: .25rem 0 .5rem !important;
+    }
+    .model-response-text .markdown li { margin: .2rem 0 .2rem .1rem !important; }
+
+    /* Accent the bullets/numbers */
+    .model-response-text .markdown ul li::marker,
+    .model-response-text .markdown ol li::marker {
+      color: #8B80F9 !important;
+      font-weight: 600;
+    }
+
+    /* --- Blockquotes --- */
+    .model-response-text .markdown blockquote {
+      margin: .6rem !important;
+      padding: .9rem .2rem .2rem .6rem !important;
+      border-left: 3px solid #8B80F9 !important;
+      background: rgba(139,128,249,.08) !important;
+      border-radius: 10px !important;
+      color: #EDEEFF !important;
+    }
+
+
+    /* --- Inline code --- */
+    .model-response-text .markdown code:not(pre code) {
+      background: rgba(139,128,249,.12) !important;
+      border: 1px solid rgba(139,128,249,.28) !important;
+      color: #EDEEFF !important;
+      border-radius: 6px !important;
+      padding: .08em .38em !important;
+      font-family: "Google Sans Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
+      font-size: .92em !important;
+    }
+
+    /* --- Fenced code blocks (Gemini’s code-block component) --- */
+    .code-block .code-block-decoration.header-formatted {
+      background: rgba(139,128,249,.10) !important;
+      border-bottom: 5px solid rgba(139,128,249,.25) !important;
+      color: #EDEEFF !important;
+    }
+    .code-block .copy-button .mat-icon { color: #8B80F9 !important; opacity: .95; }
+
+    .code-block .formatted-code-block-internal-container pre,
+    .code-block .formatted-code-block-internal-container code {
+      background: rgba(18,16,25,.92) !important;
+      border: 1px solid #2c2b2b !important;
+      border-radius: 10px !important;
+      box-shadow: 0 0 0 1px rgba(139,128,249,.18) inset !important;
+    }
+    .code-block .formatted-code-block-internal-container pre {
+      padding: 10px 12px !important;
+      overflow: auto !important;
+      line-height: 1.45 !important;
+    }
+
+    /* --- Tables (Gemini table-block) --- */
+    .table-block-component .table-block .table-content table {
+      width: 100% !important;
+      border-collapse: separate !important;   /* keep rounded corners crisp */
+      border-spacing: 0 !important;
+      background: rgba(18,16,25,.85) !important;
+      border: 1px solid #2c2b2b !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      box-shadow: 0 0 0 1px rgba(139,128,249,.20) inset !important;
+    }
+
+    /* Head row (Gemini uses <td> in <thead>) */
+    .table-block-component .table-block .table-content thead td {
+      background: rgba(139,128,249,.12) !important;
+      color: #EDEEFF !important;
+      font-weight: 700 !important;
+      border-bottom: 1px solid rgba(139,128,249,.25) !important;
+      padding: 10px 12px !important;
+    }
+
+    /* Body cells */
+    .table-block-component .table-block .table-content tbody td {
+      padding: 10px 12px !important;
+      border-top: 1px solid #2c2b2b !important;
+      color: #EDEEFF !important;
+    }
+
+    /* Row hover */
+    .table-block-component .table-block .table-content tbody tr:hover {
+      background: rgba(139,128,249,.08) !important;
+    }
+
+    /* “Export to Sheets” button */
+    .table-block-component .table-footer .mdc-button {
+      background: rgba(139,128,249,.12) !important;
+      border: 1px solid rgba(139,128,249,.28) !important;
+      color: #EDEEFF !important;
+      border-radius: 10px !important;
+    }
+    .table-block-component .table-footer .mat-icon { color: #8B80F9 !important; }
+
+    /* --- Keep KaTeX math untouched --- */
+    .model-response-text .markdown .katex * {
+      color: inherit !important;
+      background: transparent !important;
+    }
+
+
